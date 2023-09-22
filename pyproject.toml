@@ -6,7 +6,7 @@ authors = ["Tobia Ochsner <tobia.ochsner@hotmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 pandas = "^2.1.1"
 numpy = "^1.26.0"
 tqdm = "^4.66.1"
@@ -19,6 +19,7 @@ pyright = "^1.1.327"
 isort = "^5.12.0"
 flake8 = "^6.1.0"
 jupyter = "^1.0.0"
+jupyter-black = "^0.3.4"
 
 
 [build-system]
