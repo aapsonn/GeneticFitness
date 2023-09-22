@@ -49,7 +49,6 @@ def load_functional_fitness_data() -> pd.DataFrame:
     return df  # type: ignore
 
 
-@cache
 def get_mutated_subsequence(
     mutation: Optional[str] = None, start_position: int = 593, length: int = 117
 ) -> str:
