@@ -1,0 +1,13 @@
+preprocessing:
+  - name: remove_non_functional
+    cutoff: -0.508
+  - name: remove_non_significant
+    cutoff: 0.05
+
+factors:
+  - name: mutated_amino_acids
+
+analysis:
+  - name: linear_regression
+    variables:
+      - sequence_aa

@@ -4,14 +4,19 @@ from typing import Optional
 
 import pandas as pd
 
-DATA_PATH = Path("../data")
+DATA_PATH = Path("data")
 ENTIRE_GENE_PATH = DATA_PATH / "raw" / "J01609.1.fasta"
 FITNESS_PATH = DATA_PATH / "raw" / "relative_fitness_data.csv"
 
+MUTATION_POSITION = 692
+MUTATION_LENGTH = 9
+
+NON_FUNCTIONAL_FITNESS_CUTOFF = -0.508
+
 
 @cache
-def load_entire_gene() -> str:
-    """Loads the nucleotide sequence of the entire gene from the raw data file."""
+def load_wildtype_gene() -> str:
+    """Loads the nucleotide sequence of the wildtype gene from the raw data file."""
     with open(ENTIRE_GENE_PATH, "r") as handle:
         return (
             "".join(line for line in handle.readlines() if not line.startswith(">"))
@@ -37,17 +42,22 @@ def load_fitness_data() -> pd.DataFrame:
 
 
 @cache
+def load_functional_fitness_data() -> pd.DataFrame:
+    """Loads the fitness data corresponding to all functional mutants."""
+    df = load_fitness_data()
+    df = df[df["fitness"] >= NON_FUNCTIONAL_FITNESS_CUTOFF]
+    return df  # type: ignore
+
+
+@cache
 def get_mutated_subsequence(
     mutation: Optional[str] = None, start_position: int = 593, length: int = 117
 ) -> str:
     """Loads a subsequence of the entire gene, optionally with a mutation at the
     position where experimentally the gene was altered."""
-    sequence = load_entire_gene()
+    sequence = load_wildtype_gene()
 
     if mutation is not None:
-        MUTATION_POSITION = 692
-        MUTATION_LENGTH = 9
-
         assert (
             len(mutation) == MUTATION_LENGTH
         ), "Mutation must be of length 9 nucleotides."
