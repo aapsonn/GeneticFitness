@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Tobia Ochsner <tobia.ochsner@hotmail.com>"]
 readme = "README.md"
+packages = [{ include = "src" }]
 
 [tool.isort]
 profile = "black"
@@ -21,12 +22,14 @@ black = "^23.9.1"
 pyright = "^1.1.327"
 isort = "^5.12.0"
 flake8 = "^6.1.0"
-jupyter = "^1.0.0"
-jupyter-black = "^0.3.4"
 pre-commit = "^3.4.0"
 flake8-tidy-imports = "^4.10.0"
 flake8-simplify = "^0.20.0"
-pep8-naming = "^0.13.3"
+biopython = "^1.81"
+
+[tool.poetry.dev-dependencies]
+jupyter = "^1.0.0"
+jupyter-black = "^0.3.4"
 jupyterlab = "^4.0.6"
 
 

@@ -7,5 +7,5 @@ format:
 	poetry run isort src
 
 lint:
-	poetry run flake8
-	poetry run pyright
+	poetry run flake8 src
+	poetry run pyright src
