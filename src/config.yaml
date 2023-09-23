@@ -1,10 +1,10 @@
 run_name: replication_test
 
 preprocessing:
-  # - name: remove_non_functional
-  #   cutoff: -0.508
-  # - name: remove_non_significant
-  #   cutoff: 0.05
+  - name: remove_non_functional
+    cutoff: -0.508
+  - name: remove_non_significant
+    cutoff: 0.05
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117

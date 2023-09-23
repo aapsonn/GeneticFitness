@@ -20,7 +20,7 @@ logger.info("Loading config file.")
 with open(CONFIG_FILE, "r") as f:
     config = yaml.safe_load(f)
 
-run_name = f"{config['run_name']}_{datetime.now().strftime('%Y_%m_%D_%H_%M_%S')}"
+run_name = f"{config['run_name']}_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
 run_path = OUTPUT_PATH / run_name
 run_path.mkdir()
 
