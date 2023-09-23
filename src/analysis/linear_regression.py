@@ -1,4 +1,5 @@
 import pandas as pd
+from loguru import logger
 from sklearn.linear_model import LinearRegression
 
 
@@ -18,5 +19,5 @@ def linear_regression(df: pd.DataFrame, variables: list[str], target: str = "fit
     coefficients_df = pd.DataFrame(
         {"Variable": model.feature_names_in_, "Coefficient": model.coef_}
     )
-    print(coefficients_df)
-    print(model.score(X, y))
+    logger.info(coefficients_df)
+    logger.info(model.score(X, y))

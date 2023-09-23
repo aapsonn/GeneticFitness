@@ -9,3 +9,6 @@ format:
 lint:
 	poetry run flake8 src
 	poetry run pyright src
+
+run:
+	poetry run python src/run.py

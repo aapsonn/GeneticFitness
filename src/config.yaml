@@ -1,17 +1,20 @@
+run_name: replication_test
+
 preprocessing:
-  - name: remove_non_functional
-    cutoff: -0.508
-  - name: remove_non_significant
-    cutoff: 0.05
+  # - name: remove_non_functional
+  #   cutoff: -0.508
+  # - name: remove_non_significant
+  #   cutoff: 0.05
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
 
 factors:
   - name: mutated_amino_acids
-  - name: free_energy
+  - name: minimum_free_energy
 
 analysis:
   - name: linear_regression
     variables:
       - sequence_aa
+      - minimum_free_energy

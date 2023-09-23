@@ -13,4 +13,4 @@ def dna_to_rna(dna: str):
 
 def dna_to_aa(dna: str):
     """Converts a DNA sequence to an amino acid sequence."""
-    return "".join(Seq(dna).translate())
+    return "".join(Seq(dna_to_rna(dna)).translate())

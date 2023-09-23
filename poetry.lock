@@ -3081,38 +3081,17 @@ socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
-name = "viennarna"
+name = "ViennaRNA"
 version = "2.6.3"
 description = "A library for the prediction and comparison of RNA secondary structures."
 optional = false
 python-versions = ">=3.8"
-files = [
-    {file = "ViennaRNA-2.6.3-cp310-cp310-macosx_10_14_x86_64.whl", hash = "sha256:bc410e508745dc0033cb83c4059a8bd9bac50908891a70f82d73d8357d1bb59d"},
-    {file = "ViennaRNA-2.6.3-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:869dad64055a6f80785cdc0b5261a57814a5dd916a189527696b009cf2775c4d"},
-    {file = "ViennaRNA-2.6.3-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:0c94c56e70c4a213669228455f03548ed4e82cf302bb75671311c6d736da5a3f"},
-    {file = "ViennaRNA-2.6.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f810a09b4f0755f02be1d22e6d0c5f6a860000028852062b9d1402e8cda7957b"},
-    {file = "ViennaRNA-2.6.3-cp310-cp310-musllinux_1_1_i686.whl", hash = "sha256:1c3a153be11aecfda6ee41e3f327c2a5fa91a8c89c297ecf15c353d2bcb6c21a"},
-    {file = "ViennaRNA-2.6.3-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:404d41d8f77055f82abceeb779920c3ca3485e1f2192c0ae2acb30bc9b17a0d8"},
-    {file = "ViennaRNA-2.6.3-cp311-cp311-macosx_10_14_x86_64.whl", hash = "sha256:8060e12b6173845dc806c9eb07feebc1e141f18faa3d8d1c8c3b3b96b56c824a"},
-    {file = "ViennaRNA-2.6.3-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:3e6d9f9ef3a754489828aa6abcd03286707eeb6207c24ffb7b3e9da0977df900"},
-    {file = "ViennaRNA-2.6.3-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:10bdae58e8368b7c79cf61f035b7148efeb0572cac6c31ea1d3ead024a67c095"},
-    {file = "ViennaRNA-2.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:17bf5b57d3cee8f7dda6737646824c784a67a98e986d63bc9e96af569120a878"},
-    {file = "ViennaRNA-2.6.3-cp311-cp311-musllinux_1_1_i686.whl", hash = "sha256:6d00e31f43864b30e461d6942f76109127ac89ce9b6835219c688c28ec4210fe"},
-    {file = "ViennaRNA-2.6.3-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:b8617c1e254b8d69febd1174426db6ebcf4e14e8265b2e313b0d7f595ee42ea8"},
-    {file = "ViennaRNA-2.6.3-cp38-cp38-macosx_10_14_x86_64.whl", hash = "sha256:8a0f2185610c12704754d446e37d15a6dd53bfc6d7a29fdada4dfcaef175bf9a"},
-    {file = "ViennaRNA-2.6.3-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:933b1f34edee9510fb25cc7796aa2f9349283d2425fec2b782863341d299312d"},
-    {file = "ViennaRNA-2.6.3-cp38-cp38-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:e1d1388366bd1cde75e682bd42640968c2de6c39870d5b358de7919e8275bade"},
-    {file = "ViennaRNA-2.6.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0187d23dc8e62b5bf7c707d9ce39bf6590e25d2653c353a35fdfa01768c40578"},
-    {file = "ViennaRNA-2.6.3-cp38-cp38-musllinux_1_1_i686.whl", hash = "sha256:f31b74d370ddfc19a4142f6d1892fe83173ed7e1ece2ed51db5940b96899ad47"},
-    {file = "ViennaRNA-2.6.3-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:8b1df158a376f2ed2664bb4b52fd79516b63f243bb34270dfebb69b8ae016bb6"},
-    {file = "ViennaRNA-2.6.3-cp39-cp39-macosx_10_14_x86_64.whl", hash = "sha256:4ebfe7c1d89406fa6cdfe23f4ca1e4c2d8febef9d2a4935e07a270a3fd6aae62"},
-    {file = "ViennaRNA-2.6.3-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:9a08d7e6681507126ae61a1fd9543a7233737e6f7778ad406d38db64b25292db"},
-    {file = "ViennaRNA-2.6.3-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:e9c33f2e3753035d889999804eda5097e9e5558657d8063890021239c282d6e5"},
-    {file = "ViennaRNA-2.6.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f276c006ad6543e036041a41c2eda681828997ed29bd6f87e12d08ae0ba42576"},
-    {file = "ViennaRNA-2.6.3-cp39-cp39-musllinux_1_1_i686.whl", hash = "sha256:0bd2d7aaba29620ebea41e75389602da9c83f4913f2d61b95e39c6e578d9db67"},
-    {file = "ViennaRNA-2.6.3-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:389eaf786e6e0478ca4497baf0456ef218ee9d5bebb8f6810dc4b19aacbe4ed0"},
-    {file = "ViennaRNA-2.6.3.tar.gz", hash = "sha256:f154ea15558567d55457553cc8c41a8f8d1ab2086cfd2b1493111beb7d81fabc"},
-]
+files = []
+develop = false
+
+[package.source]
+type = "directory"
+url = "../../../ViennaRNA-2.6.3"
 
 [[package]]
 name = "virtualenv"
@@ -3215,4 +3194,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "ebb6e99c26d04aba299a334ebaf7cd9144deb20c6dfaad9bb006f903f40a6a69"
+content-hash = "500dfe9d4c63dd460b4da647d6e4bb996a4d691de0edb08d2fcb993bcddfb7a8"
