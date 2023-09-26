@@ -5,6 +5,11 @@ import pandas as pd
 from src.data.load_data import get_mutated_subsequence
 
 
+def subsample(df: pd.DataFrame, fraction: float) -> pd.DataFrame:
+    """Subsample the dataset."""
+    return df.sample(frac=fraction)  # type: ignore
+
+
 def remove_non_functional(df: pd.DataFrame, cutoff: float) -> pd.DataFrame:
     """Remove non-functional mutations from the dataset."""
     return df[df["fitness"] >= cutoff]  # type: ignore

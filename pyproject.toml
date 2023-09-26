@@ -27,6 +27,7 @@ flake8-simplify = "^0.20.0"
 biopython = "^1.81"
 loguru = "^0.7.2"
 viennarna = {path = "/Users/tobiaochsner/ViennaRNA-2.6.3"}
+scipy = "^1.11.2"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"

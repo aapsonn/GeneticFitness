@@ -1,6 +1,8 @@
 run_name: replication_test
 
 preprocessing:
+  - name: subsample
+    fraction: 0.1
   - name: remove_non_functional
     cutoff: -0.508
   - name: remove_non_significant
@@ -14,7 +16,10 @@ factors:
   - name: minimum_free_energy
 
 analysis:
-  - name: linear_regression
+  - name: correlation
     variables:
-      - sequence_aa
       - minimum_free_energy
+    group_by:
+      - mutated_amino_acids
+    significant_threshold: 0.05
+  

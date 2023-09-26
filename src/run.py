@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from shutil import copy
+from shutil import copy, copytree, rmtree
 
 import yaml
 from loguru import logger
@@ -10,7 +10,8 @@ from src.data.load_data import load_fitness_data
 from src.factors import factor_factory
 from src.preprocessing import preprocessing_factory
 
-OUTPUT_PATH = Path("data/processed")
+OUTPUT_PATH = Path("data/output")
+HISTORY_PATH = Path("data/output_history")
 CONFIG_FILE = Path("src/config.yaml")
 
 # load config file
@@ -21,13 +22,14 @@ with open(CONFIG_FILE, "r") as f:
     config = yaml.safe_load(f)
 
 run_name = f"{config['run_name']}_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
-run_path = OUTPUT_PATH / run_name
-run_path.mkdir()
 
-copy(CONFIG_FILE, run_path)
+rmtree(OUTPUT_PATH, ignore_errors=True)
+OUTPUT_PATH.mkdir(exist_ok=True)
+
+copy(CONFIG_FILE, OUTPUT_PATH)
 
 
-logger.add(run_path / "logs.log")
+logger.add(OUTPUT_PATH / "logs.log")
 
 logger.info("Start run {}.", run_name)
 
@@ -46,8 +48,8 @@ for preprocessing_step in config["preprocessing"]:
     function = preprocessing_factory(**preprocessing_step)
     data = function(data)
 
-data.to_csv(run_path / "preprocessed.csv")
-logger.info("Preprocessed data written to {}.", run_path / "preprocessed.csv")
+data.to_csv(OUTPUT_PATH / "preprocessed.csv")
+logger.info("Preprocessed data written to {}.", OUTPUT_PATH / "preprocessed.csv")
 
 # add factors
 
@@ -58,8 +60,8 @@ for factor in config["factors"]:
     function = factor_factory(**factor)
     data = function(data)
 
-data.to_csv(run_path / "with_factors.csv")
-logger.info("Data with factors written to {}.", run_path / "with_factors.csv")
+data.to_csv(OUTPUT_PATH / "with_factors.csv")
+logger.info("Data with factors written to {}.", OUTPUT_PATH / "with_factors.csv")
 
 # run analysis
 
@@ -67,5 +69,9 @@ logger.info("Start analysis.")
 
 for analysis_step in config["analysis"]:
     logger.info("Run {} analysis.", analysis_step["name"])
-    function = analysis_factory(**analysis_step)
+    function = analysis_factory(output_path=OUTPUT_PATH, **analysis_step)
     function(data)
+
+# copy to history
+
+copytree(OUTPUT_PATH, HISTORY_PATH / run_name)
