@@ -22,7 +22,6 @@ def correlation_matrix(
     sns.heatmap(
         correlation,
         cmap=cmap,
-        vmax=0.3,
         center=0,
         square=True,
         cbar_kws={"shrink": 0.5},
