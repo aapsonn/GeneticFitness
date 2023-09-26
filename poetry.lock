@@ -494,6 +494,22 @@ files = [
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
+name = "codon-bias"
+version = "0.3.1"
+description = "codon usage bias analysis tools"
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "codon-bias-0.3.1.tar.gz", hash = "sha256:0449a5975e5b107bb5900edd8f3d7bb75a9adde6bdd184636d29717d32ee841e"},
+]
+
+[package.dependencies]
+numpy = "*"
+pandarallel = "*"
+pandas = "*"
+scipy = "*"
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -656,6 +672,20 @@ files = [
     {file = "defusedxml-0.7.1-py2.py3-none-any.whl", hash = "sha256:a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"},
     {file = "defusedxml-0.7.1.tar.gz", hash = "sha256:1bb3032db185915b62d7c6209c5a8792be6a32ab2fedacc84e01b52c51aa3e69"},
 ]
+
+[[package]]
+name = "dill"
+version = "0.3.7"
+description = "serialize all of Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "dill-0.3.7-py3-none-any.whl", hash = "sha256:76b122c08ef4ce2eedcd4d1abd8e641114bfc6c2867f49f3c41facf65bf19f5e"},
+    {file = "dill-0.3.7.tar.gz", hash = "sha256:cc1c8b182eb3013e24bd475ff2e9295af86c1a38eb1aff128dac8962a9ce3c03"},
+]
+
+[package.extras]
+graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "distlib"
@@ -1879,6 +1909,25 @@ files = [
     {file = "packaging-23.1-py3-none-any.whl", hash = "sha256:994793af429502c4ea2ebf6bf664629d07c1a9fe974af92966e4b8d2df7edc61"},
     {file = "packaging-23.1.tar.gz", hash = "sha256:a392980d2b6cffa644431898be54b0045151319d1e7ec34f0cfed48767dd334f"},
 ]
+
+[[package]]
+name = "pandarallel"
+version = "1.6.5"
+description = "An easy to use library to speed up computation (by parallelizing on multi CPUs) with pandas."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pandarallel-1.6.5.tar.gz", hash = "sha256:1c2df98ff6441e8ae13ff428ceebaa7ec42d731f7f972c41ce4fdef1d3adf640"},
+]
+
+[package.dependencies]
+dill = ">=0.3.1"
+pandas = ">=1"
+psutil = "*"
+
+[package.extras]
+dev = ["numpy", "pytest", "pytest-cov"]
+doc = ["mkdocs-material"]
 
 [[package]]
 name = "pandas"
@@ -3194,4 +3243,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "b013b5792b4eccf724eab0fc10048eaeab5d82013b464b21939084d75a72f504"
+content-hash = "2ea160c0293ed8e3ef2647c073ef820822634c0f59cc2f638aa009c589a8f2e4"

@@ -18,6 +18,14 @@ def minimum_free_energy(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def at_content(df: pd.DataFrame) -> pd.DataFrame:
+    """Adds the minimum at content of the mutated wildtype."""
+    df["at_conent"] = df["mutated_wildtype_dna"].apply(
+        lambda seq: (seq.count("A") + seq.count("T")) / len(seq)
+    )
+    return df
+
+
 def positionwise_mutated_nucleotides(df: pd.DataFrame) -> pd.DataFrame:
     """Adds one column per mutated position."""
     mutation_length = df["sequence_dna"].apply(len).max()

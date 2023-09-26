@@ -12,17 +12,20 @@ preprocessing:
 factors:
   - name: positionwise_mutated_nucleotides
   - name: mutated_amino_acids
+  - name: at_content
   - name: minimum_free_energy
 
 analysis:
   - name: correlation_matrix
     variables:
       - minimum_free_energy
+      - at_content
       - fitness
 
   - name: correlation_with_fitness
     variables:
       - minimum_free_energy
+      - at_content
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
@@ -30,6 +33,7 @@ analysis:
   - name: random_forest_permutation_importance
     variables:
       - minimum_free_energy
+      - at_content
       - mutated_dna_0
       - mutated_dna_1
       - mutated_dna_2
