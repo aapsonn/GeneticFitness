@@ -20,10 +20,24 @@ def remove_non_significant(df: pd.DataFrame, cutoff: float) -> pd.DataFrame:
     return df[df["p_value"] < cutoff]  # type: ignore
 
 
+def add_positionwise_mutations(df: pd.DataFrame) -> pd.DataFrame:
+    """Add one column per mutated position."""
+    mutation_length = df["sequence_dna"].apply(len).max()
+    assert (
+        mutation_length == df["sequence_dna"].apply(len).max()
+    ), "All mutations should have the same length."
+
+    for position in range(mutation_length):  # type: ignore
+        df[f"mutated_dna_{position}"] = df["sequence_dna"].apply(lambda x: x[position])
+
+    return df  # type: ignore
+
+
 def extend_mutated_sequence(
     df: pd.DataFrame, wildtype_start_position: int, length: int
 ) -> pd.DataFrame:
-    """Remove non-significant mutations from the dataset."""
+    """Add a column containing the wildtype sequence combined with the
+    performed mutations."""
     df["mutated_wildtype_dna"] = df["sequence_dna"].apply(
         partial(
             get_mutated_subsequence,

@@ -1,4 +1,4 @@
-run_name: replication_test
+run_name: debug
 
 preprocessing:
   - name: subsample
@@ -10,6 +10,7 @@ preprocessing:
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
+  - name: add_positionwise_mutations
 
 factors:
   - name: mutated_amino_acids
@@ -22,4 +23,15 @@ analysis:
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
-  
+  - name: random_forest_permutation_importance
+    variables:
+      - minimum_free_energy
+      - mutated_dna_0
+      - mutated_dna_1
+      - mutated_dna_2
+      - mutated_dna_3
+      - mutated_dna_4
+      - mutated_dna_5
+      - mutated_dna_6
+      - mutated_dna_7
+      - mutated_dna_8
