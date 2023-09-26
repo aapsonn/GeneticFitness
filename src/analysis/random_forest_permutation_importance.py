@@ -48,5 +48,6 @@ def random_forest_permutation_importance(
         y="variable",
         xerr=importances_df["importance_std"],
     )
-    plt.savefig(output_path / "random_forest_permutatuon_importances.png")
-    plt.clf()
+    plt.savefig(
+        output_path / "random_forest_permutatuon_importances.png", bbox_inches="tight"
+    )

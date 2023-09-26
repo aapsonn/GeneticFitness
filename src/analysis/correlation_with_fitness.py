@@ -24,7 +24,7 @@ def correlation_significant_col(variable_name: str):
     return f"{variable_name}_correlation_p_value"
 
 
-def correlation(
+def correlation_with_fitness(
     df: pd.DataFrame,
     output_path: Path,
     variables: list[str],
@@ -117,5 +117,5 @@ def correlation(
             x=correlation_col(variable),
             hue=correlation_significant_col(variable),
         )
-        plt.savefig(output_path / f"correlation_{variable}.png")
+        plt.savefig(output_path / f"correlation_{variable}.png", bbox_inches="tight")
         plt.clf()

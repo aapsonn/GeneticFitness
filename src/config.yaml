@@ -1,8 +1,6 @@
 run_name: debug
 
 preprocessing:
-  - name: subsample
-    fraction: 0.1
   - name: remove_non_functional
     cutoff: -0.508
   - name: remove_non_significant
@@ -17,12 +15,18 @@ factors:
   - name: minimum_free_energy
 
 analysis:
-  - name: correlation
+  - name: correlation_matrix
+    variables:
+      - minimum_free_energy
+      - fitness
+
+  - name: correlation_with_fitness
     variables:
       - minimum_free_energy
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
+
   - name: random_forest_permutation_importance
     variables:
       - minimum_free_energy

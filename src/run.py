@@ -2,13 +2,18 @@ from datetime import datetime
 from pathlib import Path
 from shutil import copy, copytree, rmtree
 
+import seaborn as sns
 import yaml
 from loguru import logger
+from matplotlib import pyplot as plt
 
 from src.analysis import analysis_factory
 from src.data.load_data import load_fitness_data
 from src.factors import factor_factory
 from src.preprocessing import preprocessing_factory
+
+sns.set_theme()
+sns.set_context("paper")
 
 OUTPUT_PATH = Path("data/output")
 HISTORY_PATH = Path("data/output_history")
@@ -69,8 +74,11 @@ logger.info("Start analysis.")
 
 for analysis_step in config["analysis"]:
     logger.info("Run {} analysis.", analysis_step["name"])
+
     function = analysis_factory(output_path=OUTPUT_PATH, **analysis_step)
     function(data)
+
+    plt.clf()
 
 # copy to history
 
