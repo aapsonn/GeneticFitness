@@ -31,12 +31,32 @@ def correlation(
     group_by: Optional[list[str]] = None,
     significant_threshold: float = 0.05,
 ):
-    """Returns the correlation between the minimum free energy and the fitness."""
+    """Calculates the spearman correlation of the given features with the fitness
+    and stores the correlation, average significant correlation and histograms of
+    the correlations.
+
+    Args:
+        df (pd.DataFrame):
+            The dataframe to analyze.
+        output_path (th):
+            The path where the output gets stored.
+        variables (list[str]):
+            The correlation for these variables with the fitness will be analyzed.
+        group_by (Optional[list[str]], optional):
+            If provided, the samples are grouped by these column names and then
+            each group is analyzed separatly. Defaults to None.
+        significant_threshold (float, optional):
+            The threshold used to determine signficance of the calculated
+            correlation. Defaults to 0.05.
+    """
+    # group the dataframe if necessary
     if group_by:
         grouped_df = df.groupby(group_by)
         grouped_dict = {key: group for key, group in grouped_df}
     else:
         grouped_dict = {"all": df}
+
+    # calculate the correlations per group
 
     grouped_correlations = {}
 
@@ -61,6 +81,8 @@ def correlation(
         columns=[correlation_col(variable) for variable in variables]
         + [correlation_p_value_col(variable) for variable in variables],
     )
+
+    # add flags indicating the significance of the correlaiton
 
     for variable in variables:
         correlation_df[correlation_significant_col(variable)] = (
