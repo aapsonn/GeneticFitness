@@ -118,3 +118,4 @@ def correlation(
             hue=correlation_significant_col(variable),
         )
         plt.savefig(output_path / f"correlation_{variable}.png")
+        plt.clf()
