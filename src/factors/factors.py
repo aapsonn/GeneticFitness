@@ -16,3 +16,16 @@ def minimum_free_energy(df: pd.DataFrame) -> pd.DataFrame:
         lambda seq: fold(seq)[1]
     )
     return df
+
+
+def positionwise_mutated_nucleotides(df: pd.DataFrame) -> pd.DataFrame:
+    """Adds one column per mutated position."""
+    mutation_length = df["sequence_dna"].apply(len).max()
+    assert (
+        mutation_length == df["sequence_dna"].apply(len).max()
+    ), "All mutations should have the same length."
+
+    for position in range(mutation_length):  # type: ignore
+        df[f"mutated_dna_{position}"] = df["sequence_dna"].apply(lambda x: x[position])
+
+    return df  # type: ignore

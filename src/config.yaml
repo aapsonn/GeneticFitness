@@ -8,9 +8,9 @@ preprocessing:
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
-  - name: add_positionwise_mutations
 
 factors:
+  - name: positionwise_mutated_nucleotides
   - name: mutated_amino_acids
   - name: minimum_free_energy
 
