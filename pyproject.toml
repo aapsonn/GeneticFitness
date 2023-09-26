@@ -29,6 +29,8 @@ loguru = "^0.7.2"
 viennarna = {path = "/Users/tobiaochsner/ViennaRNA-2.6.3"}
 scipy = "^1.11.2"
 codon-bias = "^0.3.1"
+torch = "^2.0.1"
+torchvision = "^0.15.2"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"
