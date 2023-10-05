@@ -3,6 +3,8 @@ run_name: basic_factors
 preprocessing:
   - name: remove_non_functional
     cutoff: -0.508
+  - name: subsample
+    fraction: 1
   - name: remove_non_significant
     cutoff: 0.05
   - name: extend_mutated_sequence
@@ -14,6 +16,8 @@ factors:
   - name: mutated_amino_acids
   - name: at_content
   - name: minimum_free_energy
+  - name: rna_fn
+    model_path: /Users/tobiaochsner/Documents/ETH/RNA-FM/redevelop/pretrained/RNA-FM_pretrained.pth
 
 analysis:
   - name: correlation_matrix
@@ -21,11 +25,17 @@ analysis:
       - minimum_free_energy
       - at_content
       - fitness
+      - fn_1
+      - fn_171
+      - fn_635
 
   - name: correlation_with_fitness
     variables:
       - minimum_free_energy
       - at_content
+      - fn_1
+      - fn_171
+      - fn_635
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
@@ -43,3 +53,6 @@ analysis:
       - mutated_dna_6
       - mutated_dna_7
       - mutated_dna_8
+      - fn_1
+      - fn_171
+      - fn_635

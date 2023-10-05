@@ -7,6 +7,7 @@ from .factors import (
     mutated_amino_acids,
     positionwise_mutated_nucleotides,
 )
+from .rna_fn import rna_fn
 
 
 def factor_factory(name: str, **kwargs) -> Callable:
@@ -20,5 +21,7 @@ def factor_factory(name: str, **kwargs) -> Callable:
             return partial(minimum_free_energy, **kwargs)
         case "positionwise_mutated_nucleotides":
             return partial(positionwise_mutated_nucleotides, **kwargs)
+        case "rna_fn":
+            return partial(rna_fn, **kwargs)
         case _:
             raise ValueError(f"Unknown factor {name}.")

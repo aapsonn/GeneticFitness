@@ -1,4 +1,5 @@
 import fm
+import numpy as np
 import pandas as pd
 import torch
 from tqdm import tqdm
@@ -31,3 +32,8 @@ def rna_fn(df: pd.DataFrame, model_path: str, batch_size: int = 128) -> pd.DataF
 
         token_embeddings = results["representations"][12]
         mean_embeddings.append(token_embeddings.mean(axis=1).cpu().numpy())
+
+    mean_embeddings = np.concatenate(mean_embeddings)
+    df[[f"fn_{i}" for i in range(640)]] = mean_embeddings
+
+    return df
