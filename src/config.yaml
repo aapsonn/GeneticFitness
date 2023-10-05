@@ -1,4 +1,4 @@
-run_name: debug
+run_name: basic_factors
 
 preprocessing:
   - name: remove_non_functional

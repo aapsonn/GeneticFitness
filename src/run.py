@@ -1,8 +1,11 @@
 from datetime import datetime
 from pathlib import Path
+from random import seed
 from shutil import copy, copytree, rmtree
 
+import numpy as np
 import seaborn as sns
+import torch
 import yaml
 from loguru import logger
 from matplotlib import pyplot as plt
@@ -11,6 +14,10 @@ from src.analysis import analysis_factory
 from src.data.load_data import load_fitness_data
 from src.factors import factor_factory
 from src.preprocessing import preprocessing_factory
+
+seed(0)
+np.random.seed(0)
+torch.manual_seed(0)
 
 sns.set_theme()
 sns.set_context("paper")
@@ -35,7 +42,6 @@ copy(CONFIG_FILE, OUTPUT_PATH)
 
 
 logger.add(OUTPUT_PATH / "logs.log")
-
 logger.info("Start run {}.", run_name)
 
 # load data
