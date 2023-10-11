@@ -33,6 +33,9 @@ torch = "^2.0.1"
 torchvision = "^0.15.2"
 rna-fm = {path = "/Users/tobiaochsner/Documents/ETH/RNA-FM"}
 ptflops = "^0.7"
+lightning = "^2.0.9.post0"
+tensorboard = "^2.14.1"
+comet-ml = "^3.33.11"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"

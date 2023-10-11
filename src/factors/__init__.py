@@ -7,6 +7,7 @@ from .factors import (
     mutated_amino_acids,
     positionwise_mutated_nucleotides,
 )
+from .neural_network import neural_network
 from .rna_fn import rna_fn
 
 
@@ -23,5 +24,7 @@ def factor_factory(name: str, **kwargs) -> Callable:
             return partial(positionwise_mutated_nucleotides, **kwargs)
         case "rna_fn":
             return partial(rna_fn, **kwargs)
+        case "neural_network":
+            return partial(neural_network, **kwargs)
         case _:
             raise ValueError(f"Unknown factor {name}.")
