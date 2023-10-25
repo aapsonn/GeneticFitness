@@ -1,6 +1,7 @@
 from functools import partial
 
 import pandas as pd
+from ViennaRNA import fold
 
 from src.data.load_data import get_mutated_subsequence
 
@@ -33,3 +34,26 @@ def extend_mutated_sequence(
         )
     )
     return df  # type: ignore
+
+
+def categorical_encode_str(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """Converts a column with a string into a sequence of 0 and 1."""
+    unique_characters = set(sum(df[column].apply(list), []))  # type: ignore
+    print(unique_characters)
+    assert (
+        len(unique_characters) <= 2
+    ), "Only two distinct characters are allowed in 'binary_encode_str'."
+
+    lookup = {character: index for index, character in enumerate(unique_characters)}
+
+    df[f"{column}_binary"] = df[column].apply(
+        lambda seq: str([lookup[character] for character in seq])
+    )
+
+    return df
+
+
+def rna_loops(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """Uses Vienna to add the predicted RNA loops."""
+    df["rna_loops"] = df[column].apply(lambda seq: fold(seq)[0])
+    return df

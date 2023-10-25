@@ -3,13 +3,19 @@ from typing import Any
 import lightning.pytorch as pl
 import numpy as np
 import pandas as pd
+import torch
 import yaml
+from lightning.pytorch.callbacks import ModelCheckpoint
+from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 from lightning.pytorch.loggers import CometLogger
 from torch.utils.data import DataLoader
 
 from src.data.df_dataset import DfDataset
 from src.data.splitting import create_data_splits
 from src.modeling import loss_factory, model_factory, optimizer_factory
+from src.utils.misc import set_seed
+
+torch.set_default_device(torch.device("cpu"))
 
 
 def _get_comet_api_key():
@@ -19,6 +25,7 @@ def _get_comet_api_key():
 
 def neural_network(
     df: pd.DataFrame,
+    project_name,
     splitting_config: dict[str, Any],
     dataset_config: dict[str, Any],
     dataloader_config: dict[str, Any],
@@ -26,8 +33,13 @@ def neural_network(
     loss_config: dict[str, Any],
     model_config: dict[str, Any],
     trainer_config: dict[str, Any],
+    return_score: bool = False,
 ):
     """Trains a neural network."""
+    set_seed()
+
+    torch.set_default_dtype(torch.float32)
+
     train_df, test_df, val_df = create_data_splits(df, **splitting_config)
 
     train_dataset = DfDataset(train_df, **dataset_config)
@@ -46,7 +58,7 @@ def neural_network(
     optimizer = optimizer_factory(**optimizer_config)
     model = model_factory(loss=loss, optimizer=optimizer, **model_config)
 
-    logger = CometLogger(api_key=_get_comet_api_key())
+    logger = CometLogger(api_key=_get_comet_api_key(), project_name=project_name)
     logger.log_hyperparams(
         {
             **splitting_config,
@@ -59,11 +71,27 @@ def neural_network(
         }
     )
 
-    trainer = pl.Trainer(logger=logger, **trainer_config)
+    trainer = pl.Trainer(
+        logger=logger,
+        accelerator="cpu",
+        callbacks=[
+            EarlyStopping(monitor="val_loss", mode="min", patience=10),
+            ModelCheckpoint(
+                monitor="val_loss",
+                dirpath=f"models/{project_name}",
+                filename="{epoch:02d}-{val_loss:.2f}",
+                save_top_k=1,
+            ),
+        ],
+        **trainer_config,
+    )
 
     trainer.fit(model=model, train_dataloaders=train_loader, val_dataloaders=val_loader)
-    trainer.validate(model=model, dataloaders=val_loader)
+    validation_scores = trainer.validate(model=model, dataloaders=val_loader)
     trainer.test(model=model, dataloaders=test_loader)
+
+    if return_score:
+        return min(s["val_loss"] for s in validation_scores)
 
     val_prediction = trainer.predict(model=model, dataloaders=val_loader)
     val_prediction = np.concatenate([batch.numpy() for batch in val_prediction])  # type: ignore # noqa: E501

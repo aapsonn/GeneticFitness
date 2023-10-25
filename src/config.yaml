@@ -1,20 +1,22 @@
-run_name: basic_factors
+run_name: basic_cnn_best
 
 preprocessing:
   - name: remove_non_functional
     cutoff: -0.508
-  - name: subsample
-    fraction: 0.1
-  - name: remove_non_significant
-    cutoff: 0.05
+  # - name: subsample
+  #   fraction: 0.1
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
+  - name: rna_loops
+    column: mutated_wildtype_dna
 
 factors:
   - name: mutated_amino_acids
-
+  - name: minimum_free_energy
   - name: neural_network
+    project_name: basic_cnn
+
     splitting_config:
       train_fraction: 0.6
       test_fraction: 0.2
@@ -22,11 +24,11 @@ factors:
 
     dataset_config:
       variables:
-        - fitness
+        - rna_loops
       target_variable: fitness
 
     dataloader_config:
-      batch_size: 32
+      batch_size: 256
       shuffle: true
     
     optimizer_config:
@@ -37,14 +39,27 @@ factors:
 
     model_config:
       name: prediction_cnn
+      input_size: 117
+      embedding_size: 32
+      num_conv_layers: 3
+      num_conv_filters: 32
+      filter_size: 5
+      fully_connected_size: 32
 
     trainer_config:
-      max_epochs: 100
-      
+      max_epochs: 50
+
 analysis:
   - name: correlation_with_fitness
     variables:
       - prediction
+      - minimum_free_energy
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
+  - name: random_forest_permutation_importance
+    variables:
+      - minimum_free_energy
+      - mutated_amino_acids
+      - prediction
+  

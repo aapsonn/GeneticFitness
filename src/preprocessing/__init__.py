@@ -2,9 +2,11 @@ from functools import partial
 from typing import Callable
 
 from .preprocessing import (
+    categorical_encode_str,
     extend_mutated_sequence,
     remove_non_functional,
     remove_non_significant,
+    rna_loops,
     subsample,
 )
 
@@ -20,5 +22,9 @@ def preprocessing_factory(name: str, **kwargs) -> Callable:
             return partial(extend_mutated_sequence, **kwargs)
         case "subsample":
             return partial(subsample, **kwargs)
+        case "rna_loops":
+            return partial(rna_loops, **kwargs)
+        case "categorical_encode_str":
+            return partial(categorical_encode_str, **kwargs)
         case _:
             raise ValueError(f"Unknown preprocessing function {name}.")

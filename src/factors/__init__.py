@@ -8,11 +8,12 @@ from .factors import (
     positionwise_mutated_nucleotides,
 )
 from .neural_network import neural_network
+from .ray_tune import hyperparameter_tuning
 from .rna_fn import rna_fn
 
 
 def factor_factory(name: str, **kwargs) -> Callable:
-    """Factory function for preprocessing functions."""
+    """Factory function for functions that add factors."""
     match name:
         case "mutated_amino_acids":
             return partial(mutated_amino_acids, **kwargs)
@@ -26,5 +27,9 @@ def factor_factory(name: str, **kwargs) -> Callable:
             return partial(rna_fn, **kwargs)
         case "neural_network":
             return partial(neural_network, **kwargs)
+        case "hyperparameter_tuning":
+            return partial(
+                hyperparameter_tuning, factor_factory=factor_factory, **kwargs
+            )
         case _:
             raise ValueError(f"Unknown factor {name}.")
