@@ -4,6 +4,7 @@ from typing import Callable, Iterator
 import lightning.pytorch as pl
 from torch import Tensor, nn, optim
 
+from .cnn_vae import CNN_VAE
 from .prediction_cnn import PredictionCNN
 
 
@@ -17,6 +18,8 @@ def model_factory(
     match name:
         case "prediction_cnn":
             return PredictionCNN(loss, optimizer, **kwargs)
+        case "cnn_vae":
+            return CNN_VAE(optimizer, **kwargs)
         case _:
             raise ValueError(f"Unknown preprocessing function {name}.")
 

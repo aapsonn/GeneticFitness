@@ -78,7 +78,7 @@ def neural_network(
             EarlyStopping(monitor="val_loss", mode="min", patience=10),
             ModelCheckpoint(
                 monitor="val_loss",
-                dirpath=f"models/{project_name}",
+                dirpath=f"data/models/{project_name}",
                 filename="{epoch:02d}-{val_loss:.2f}",
                 save_top_k=1,
             ),
@@ -94,7 +94,8 @@ def neural_network(
         return min(s["val_loss"] for s in validation_scores)
 
     val_prediction = trainer.predict(model=model, dataloaders=val_loader)
-    val_prediction = np.concatenate([batch.numpy() for batch in val_prediction])  # type: ignore # noqa: E501
+    val_prediction = np.concatenate([batch[2].detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
 
-    val_df["prediction"] = val_prediction
+    for i in range(val_prediction.shape[1]):
+        val_df[f"prediction_{i}"] = val_prediction[:, i]
     return val_df

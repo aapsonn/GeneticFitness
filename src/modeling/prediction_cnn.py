@@ -16,7 +16,7 @@ class PredictionCNN(pl.LightningModule):
         num_conv_layers: int = 2,
         num_conv_filters: int = 8,
         fully_connected_size: int = 32,
-        filter_size: int = 0,
+        filter_size: int = 9,
     ):
         super().__init__()
         self.loss = loss
