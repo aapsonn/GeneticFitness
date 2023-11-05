@@ -8,7 +8,7 @@ from .factors import (
     positionwise_mutated_nucleotides,
 )
 from .neural_network import neural_network
-from .ray_tune import hyperparameter_tuning
+from .optuna import hyperparameter_tuning
 from .rna_fn import rna_fn
 
 

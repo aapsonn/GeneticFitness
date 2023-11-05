@@ -75,7 +75,7 @@ def neural_network(
         logger=logger,
         accelerator="cpu",
         callbacks=[
-            EarlyStopping(monitor="val_loss", mode="min", patience=10),
+            EarlyStopping(monitor="val_loss", mode="min", patience=10, min_delta=0.01),
             ModelCheckpoint(
                 monitor="val_loss",
                 dirpath=f"data/models/{project_name}",

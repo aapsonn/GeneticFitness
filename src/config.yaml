@@ -3,6 +3,8 @@ run_name: cnn_vae
 preprocessing:
   - name: remove_non_functional
     cutoff: -0.508
+  # - name: subsample
+  #   fraction: 0.1
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
@@ -54,6 +56,9 @@ analysis:
     variables:
       - prediction_0
       - prediction_1
+      - prediction_2
+      - prediction_3
+      - prediction_4
       - minimum_free_energy
     group_by:
       - mutated_amino_acids
@@ -64,3 +69,6 @@ analysis:
       - mutated_amino_acids
       - prediction_0
       - prediction_1
+      - prediction_2
+      - prediction_3
+      - prediction_4

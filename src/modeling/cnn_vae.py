@@ -143,4 +143,6 @@ class CNN_VAE(pl.LightningModule):
         return loss
 
     def configure_optimizers(self):
-        return self.optimizer(self.parameters())
+        parameters = self.parameters()
+        parameters_without_embedding = (p for i, p in enumerate(parameters) if 0 < i)
+        return self.optimizer(parameters_without_embedding)

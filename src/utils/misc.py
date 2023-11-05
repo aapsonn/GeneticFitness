@@ -10,4 +10,4 @@ def set_seed(seed: int = 0):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
-    torch.mps.manual_seed(seed)
+    torch.mps.manual_seed(seed)  # type: ignore
