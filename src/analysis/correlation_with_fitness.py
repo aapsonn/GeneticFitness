@@ -21,7 +21,7 @@ def correlation_p_value_col(variable_name: str):
 def correlation_significant_col(variable_name: str):
     """Returns the column name for the column indicating if the correlation
     is significant."""
-    return f"{variable_name}_correlation_p_value"
+    return f"{variable_name}_correlation_significant"
 
 
 def correlation_with_fitness(

@@ -11,6 +11,7 @@ from lightning.pytorch.loggers import CometLogger
 from torch.utils.data import DataLoader
 
 from src.data.df_dataset import DfDataset
+from src.data.grouped_batch_sampler import GroupedBatchSampler
 from src.data.splitting import create_data_splits
 from src.modeling import loss_factory, model_factory, optimizer_factory
 from src.utils.misc import set_seed
@@ -46,13 +47,16 @@ def neural_network(
     test_dataset = DfDataset(test_df, **dataset_config)
     val_dataset = DfDataset(val_df, **dataset_config)
 
-    train_loader = DataLoader(train_dataset, **dataloader_config)
+    if "group_key" in dataloader_config:
+        train_loader = DataLoader(
+            train_dataset,
+            batch_sampler=GroupedBatchSampler(train_dataset, **dataloader_config),
+        )
+    else:
+        train_loader = DataLoader(train_dataset, **dataloader_config)
 
-    if "shuffle" in dataloader_config:
-        dataloader_config["shuffle"] = False
-
-    test_loader = DataLoader(test_dataset, **dataloader_config)
-    val_loader = DataLoader(val_dataset, **dataloader_config)
+    test_loader = DataLoader(test_dataset)
+    val_loader = DataLoader(val_dataset)
 
     loss = loss_factory(**loss_config)
     optimizer = optimizer_factory(**optimizer_config)

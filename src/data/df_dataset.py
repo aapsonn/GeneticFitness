@@ -20,3 +20,7 @@ class DfDataset(Dataset):
 
     def __len__(self):
         return len(self.X)
+
+    def __iter__(self):
+        for i in range(len(self)):
+            yield self[i]

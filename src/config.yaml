@@ -1,4 +1,4 @@
-run_name: cnn_vae
+run_name: basic_cnn_best
 
 preprocessing:
   - name: remove_non_functional
@@ -15,7 +15,7 @@ factors:
   - name: mutated_amino_acids
   - name: minimum_free_energy
   - name: neural_network
-    project_name: cnn_vae
+    project_name: basic_cnn
 
     splitting_config:
       train_fraction: 0.6
@@ -25,11 +25,12 @@ factors:
     dataset_config:
       variables:
         - rna_loops
+        - mutated_amino_acids
       target_variable: fitness
 
     dataloader_config:
       batch_size: 256
-      shuffle: true
+      group_key: mutated_amino_acids
     
     optimizer_config:
       name: adam
@@ -38,27 +39,21 @@ factors:
       name: mse
 
     model_config:
-      name: cnn_vae
+      name: prediction_cnn
       input_size: 117
       embedding_size: 32
       num_conv_layers: 3
       num_conv_filters: 32
       filter_size: 5
       fully_connected_size: 32
-      latent_size: 5
-      kld_weight: 0.1
 
     trainer_config:
-      max_epochs: 100
+      max_epochs: 50
 
 analysis:
   - name: correlation_with_fitness
     variables:
-      - prediction_0
-      - prediction_1
-      - prediction_2
-      - prediction_3
-      - prediction_4
+      - prediction
       - minimum_free_energy
     group_by:
       - mutated_amino_acids
@@ -67,8 +62,5 @@ analysis:
     variables:
       - minimum_free_energy
       - mutated_amino_acids
-      - prediction_0
-      - prediction_1
-      - prediction_2
-      - prediction_3
-      - prediction_4
+      - prediction
+  
