@@ -3038,6 +3038,23 @@ files = [
 dev = ["black", "mypy", "pytest"]
 
 [[package]]
+name = "ostir"
+version = "1.1.1"
+description = "Open Source Transcription Initiation Rates"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "OSTIR-1.1.1-py3-none-any.whl", hash = "sha256:7f5747664cca55eeb01a41045e1161c2d6afc52fbf1cecae16bb2fd543d6d1b2"},
+]
+
+[package.dependencies]
+numpy = "*"
+
+[package.extras]
+nice-text = ["rich"]
+status = ["progress"]
+
+[[package]]
 name = "overrides"
 version = "7.4.0"
 description = "A decorator to automatically detect mismatch when overriding a method."
@@ -5540,4 +5557,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "2748547f5df7d6ce31b9f1d43aecce70d8e76cdc2b06873eeba58f110b053c51"
+content-hash = "1999e0516715c99d5e3319db8107632add18429642b8098112b94c00bcf60a7a"

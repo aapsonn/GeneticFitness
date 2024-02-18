@@ -37,6 +37,7 @@ lightning = "^2.0.9.post0"
 tensorboard = "^2.14.1"
 comet-ml = "^3.33.11"
 optuna = "^3.4.0"
+ostir = "^1.1.1"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"

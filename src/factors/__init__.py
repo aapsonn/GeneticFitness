@@ -9,6 +9,7 @@ from .factors import (
 )
 from .neural_network import neural_network
 from .optuna import hyperparameter_tuning
+from .rbs import non_wildtype_rbs_rate, rbs_rates
 from .rna_fn import rna_fn
 
 
@@ -23,6 +24,10 @@ def factor_factory(name: str, **kwargs) -> Callable:
             return partial(minimum_free_energy, **kwargs)
         case "positionwise_mutated_nucleotides":
             return partial(positionwise_mutated_nucleotides, **kwargs)
+        case "non_wildtype_rbs_rate":
+            return partial(non_wildtype_rbs_rate, **kwargs)
+        case "rbs_rates":
+            return partial(rbs_rates, **kwargs)
         case "rna_fn":
             return partial(rna_fn, **kwargs)
         case "neural_network":

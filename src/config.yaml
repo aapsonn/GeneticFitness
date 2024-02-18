@@ -1,10 +1,10 @@
-run_name: basic_cnn_best
+run_name: test_rbs_rates
 
 preprocessing:
   - name: remove_non_functional
     cutoff: -0.508
   # - name: subsample
-  #   fraction: 0.1
+  #   fraction: 0.01
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
@@ -14,53 +14,29 @@ preprocessing:
 factors:
   - name: mutated_amino_acids
   - name: minimum_free_energy
-  - name: neural_network
-    project_name: basic_cnn
-
-    splitting_config:
-      train_fraction: 0.6
-      test_fraction: 0.2
-      group_variable: mutated_amino_acids
-
-    dataset_config:
-      variables:
-        - rna_loops
-        - mutated_amino_acids
-      target_variable: fitness
-
-    dataloader_config:
-      batch_size: 256
-      group_key: mutated_amino_acids
-    
-    optimizer_config:
-      name: adam
-    
-    loss_config:
-      name: mse
-
-    model_config:
-      name: prediction_cnn
-      input_size: 117
-      embedding_size: 32
-      num_conv_layers: 3
-      num_conv_filters: 32
-      filter_size: 5
-      fully_connected_size: 32
-
-    trainer_config:
-      max_epochs: 50
+  - name: non_wildtype_rbs_rate
+  - name: rbs_rates
 
 analysis:
   - name: correlation_with_fitness
     variables:
-      - prediction
+      - non_wildtype_rbs_rate
       - minimum_free_energy
+      - rbs_expression_25
+      - rbs_expression_38
+      - rbs_expression_70
+      - rbs_expression_82
+      - rbs_expression_87
+      - rbs_expression_99
+      - rbs_expression_100
+      - rbs_expression_101
+      - rbs_expression_102
+      - rbs_expression_103
+      - rbs_expression_104
+      - rbs_expression_105
+      - rbs_expression_106
+      - rbs_expression_107
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
-  - name: random_forest_permutation_importance
-    variables:
-      - minimum_free_energy
-      - mutated_amino_acids
-      - prediction
   

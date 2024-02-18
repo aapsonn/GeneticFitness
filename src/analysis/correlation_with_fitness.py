@@ -49,6 +49,9 @@ def correlation_with_fitness(
             The threshold used to determine signficance of the calculated
             correlation. Defaults to 0.05.
     """
+    # remove columns that are not in the df
+    variables = [variable for variable in variables if variable in df.columns]
+
     # group the dataframe if necessary
     if group_by:
         grouped_df = df.groupby(group_by)
