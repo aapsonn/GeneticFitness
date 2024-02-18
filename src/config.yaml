@@ -1,4 +1,4 @@
-run_name: test_rbs_rates
+run_name: basic_cnn_synonymous_batches
 
 preprocessing:
   - name: remove_non_functional
@@ -13,30 +13,46 @@ preprocessing:
 
 factors:
   - name: mutated_amino_acids
-  - name: minimum_free_energy
-  - name: non_wildtype_rbs_rate
-  - name: rbs_rates
+  - name: neural_network
+    project_name: basic_cnn_synonymous_batches
+
+    splitting_config:
+      train_fraction: 0.6
+      test_fraction: 0.2
+      group_variable: mutated_amino_acids
+
+    dataset_config:
+      variables:
+        - rna_loops
+        - mutated_amino_acids
+      target_variable: fitness
+
+    dataloader_config:
+      batch_size: 16
+      shuffle: true
+    
+    optimizer_config:
+      name: adam
+    
+    loss_config:
+      name: mse
+
+    model_config:
+      name: prediction_cnn
+      input_size: 117
+      embedding_size: 64
+      num_conv_layers: 7
+      num_conv_filters: 64
+      filter_size: 5
+      fully_connected_size: 64
+
+    trainer_config:
+      max_epochs: 50
 
 analysis:
   - name: correlation_with_fitness
     variables:
-      - non_wildtype_rbs_rate
-      - minimum_free_energy
-      - rbs_expression_25
-      - rbs_expression_38
-      - rbs_expression_70
-      - rbs_expression_82
-      - rbs_expression_87
-      - rbs_expression_99
-      - rbs_expression_100
-      - rbs_expression_101
-      - rbs_expression_102
-      - rbs_expression_103
-      - rbs_expression_104
-      - rbs_expression_105
-      - rbs_expression_106
-      - rbs_expression_107
+      - prediction
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
-  

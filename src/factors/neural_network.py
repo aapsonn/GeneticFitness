@@ -6,7 +6,6 @@ import pandas as pd
 import torch
 import yaml
 from lightning.pytorch.callbacks import ModelCheckpoint
-from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 from lightning.pytorch.loggers import CometLogger
 from torch.utils.data import DataLoader
 
@@ -79,7 +78,6 @@ def neural_network(
         logger=logger,
         accelerator="cpu",
         callbacks=[
-            EarlyStopping(monitor="val_loss", mode="min", patience=10, min_delta=0.01),
             ModelCheckpoint(
                 monitor="val_loss",
                 dirpath=f"data/models/{project_name}",
@@ -98,8 +96,12 @@ def neural_network(
         return min(s["val_loss"] for s in validation_scores)
 
     val_prediction = trainer.predict(model=model, dataloaders=val_loader)
-    val_prediction = np.concatenate([batch[2].detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
+    val_prediction = np.array([batch.detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
+    # val_prediction = np.concatenate([batch[2].detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
 
-    for i in range(val_prediction.shape[1]):
-        val_df[f"prediction_{i}"] = val_prediction[:, i]
+    # for i in range(val_prediction.shape[1]):
+    #     val_df[f"prediction_{i}"] = val_prediction[:, i]
+
+    val_df["prediction"] = val_prediction
+
     return val_df
