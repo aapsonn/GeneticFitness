@@ -38,6 +38,8 @@ tensorboard = "^2.14.1"
 comet-ml = "^3.33.11"
 optuna = "^3.4.0"
 ostir = "^1.1.1"
+opencv-python = "^4.9.0.80"
+forgi = "^2.2.3"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"
