@@ -10,7 +10,7 @@ packages = [{ include = "src" }]
 profile = "black"
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
+python = ">=3.11,<3.14"
 pandas = "^2.1.1"
 numpy = "^1.26.0"
 tqdm = "^4.66.1"
@@ -26,12 +26,12 @@ flake8-tidy-imports = "^4.10.0"
 flake8-simplify = "^0.20.0"
 biopython = "^1.81"
 loguru = "^0.7.2"
-viennarna = {path = "/Users/tobiaochsner/ViennaRNA-2.6.3"}
+#viennarna = {path = "/usr/bin"}
 scipy = "^1.11.2"
 codon-bias = "^0.3.1"
-torch = "^2.0.1"
-torchvision = "^0.15.2"
-rna-fm = {path = "/Users/tobiaochsner/Documents/ETH/RNA-FM"}
+torch = { version = ">=2.0", extras = ["cpu"] }
+#torchvision = ">=0.15"
+#rna-fm
 ptflops = "^0.7"
 lightning = "^2.0.9.post0"
 tensorboard = "^2.14.1"
@@ -41,10 +41,14 @@ ostir = "^1.1.1"
 opencv-python = "^4.9.0.80"
 forgi = "^2.2.3"
 
-[tool.poetry.dev-dependencies]
-jupyter = "^1.0.0"
-jupyter-black = "^0.3.4"
-jupyterlab = "^4.0.6"
+# [tool.poetry.dev-dependencies]
+# jupyter = "^1.0.0"
+# jupyter-black = "^0.3.4"
+# jupyterlab = "^4.0.6"
+notebook = "^7.3.2"
+ipykernel = "^6.29.5"
+viennarna = "^2.7.0"
+ipywidgets = "^8.1.5"
 
 
 [build-system]

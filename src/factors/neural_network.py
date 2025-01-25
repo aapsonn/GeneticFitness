@@ -96,7 +96,21 @@ def neural_network(
         return min(s["val_loss"] for s in validation_scores)
 
     val_prediction = trainer.predict(model=model, dataloaders=val_loader)
-    val_prediction = np.array([batch.detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
+
+    # Check the structure of val_prediction
+    print("Structure of val_prediction:", type(val_prediction), val_prediction[:2])  # Print the first 2 entries for inspection
+
+        # Adjust to handle nested structure
+    print (f'length val_prediction {len(val_prediction)}')
+    print (f'type val_prediction {type(val_prediction)}')
+    print (f'len val_prediction[0] {len(val_prediction[0])}')
+    print (f'type val_prediction[0] {type(val_prediction[0])}')
+    print (f'len val_prediction[0][0] {len(val_prediction[0][0])}')
+    print (f'type val_prediction[0][0] {type(val_prediction[0][0])}')
+   # print (f'type val_prediction[0][0] {val_prediction[0][0]}')
+    print (f'shape val_prediction[0][0] {val_prediction[0][0].shape}')
+   
+    val_prediction = np.array([batch[2].detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
     # val_prediction = np.concatenate([batch[2].detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
 
     # for i in range(val_prediction.shape[1]):

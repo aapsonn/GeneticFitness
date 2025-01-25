@@ -1,10 +1,10 @@
-run_name: basic_cnn_synonymous_batches
+run_name: cnn_vae_synonymous_batches
 
 preprocessing:
   - name: remove_non_functional
     cutoff: -0.508
   # - name: subsample
-  #   fraction: 0.01
+  #   fraction: 0.1
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
@@ -13,8 +13,9 @@ preprocessing:
 
 factors:
   - name: mutated_amino_acids
+  #- name: minimum_free_energy
   - name: neural_network
-    project_name: basic_cnn_synonymous_batches
+    project_name: cnn_vae_synonymous_batches
 
     splitting_config:
       train_fraction: 0.6
@@ -28,8 +29,8 @@ factors:
       target_variable: fitness
 
     dataloader_config:
-      batch_size: 16
-      shuffle: true
+      batch_size: 256
+      group_key: mutated_amino_acids
     
     optimizer_config:
       name: adam
@@ -38,21 +39,37 @@ factors:
       name: mse
 
     model_config:
-      name: prediction_cnn
+      name: cnn_vae
       input_size: 117
-      embedding_size: 64
-      num_conv_layers: 7
-      num_conv_filters: 64
+      embedding_size: 32
+      num_conv_layers: 3
+      num_conv_filters: 32
       filter_size: 5
-      fully_connected_size: 64
+      fully_connected_size: 32
+      latent_size: 5
+      kld_weight: 0.1
 
     trainer_config:
-      max_epochs: 50
+      max_epochs: 1
 
 analysis:
   - name: correlation_with_fitness
     variables:
-      - prediction
+      - prediction_0
+      - prediction_1
+      - prediction_2
+      - prediction_3
+      - prediction_4
+      - minimum_free_energy
     group_by:
       - mutated_amino_acids
     significant_threshold: 0.05
+  - name: random_forest_permutation_importance
+    variables:
+      - minimum_free_energy
+      - mutated_amino_acids
+      - prediction_0
+      - prediction_1
+      - prediction_2
+      - prediction_3
+      - prediction_4
