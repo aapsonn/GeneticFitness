@@ -45,6 +45,7 @@ def neural_network(
     train_dataset = DfDataset(train_df, **dataset_config)
     test_dataset = DfDataset(test_df, **dataset_config)
     val_dataset = DfDataset(val_df, **dataset_config)
+    inf_dataset = DfDataset(df, **dataset_config)
 
     if "group_key" in dataloader_config:
         train_loader = DataLoader(
@@ -56,6 +57,7 @@ def neural_network(
 
     test_loader = DataLoader(test_dataset)
     val_loader = DataLoader(val_dataset)
+    inf_loader = DataLoader(inf_dataset)
 
     loss = loss_factory(**loss_config)
     optimizer = optimizer_factory(**optimizer_config)
@@ -96,26 +98,24 @@ def neural_network(
         return min(s["val_loss"] for s in validation_scores)
 
     val_prediction = trainer.predict(model=model, dataloaders=val_loader)
+    val_prediction = [batch_output[2] for batch_output in val_prediction]  # Extract mu from each batch
+    val_prediction = torch.cat(val_prediction, dim=0).detach().cpu().numpy()  
 
-    # Check the structure of val_prediction
-    print("Structure of val_prediction:", type(val_prediction), val_prediction[:2])  # Print the first 2 entries for inspection
+    for i in range(val_prediction.shape[1]):
+        val_df[f"prediction_{i}"] = val_prediction[:, i]
 
-        # Adjust to handle nested structure
-    print (f'length val_prediction {len(val_prediction)}')
-    print (f'type val_prediction {type(val_prediction)}')
-    print (f'len val_prediction[0] {len(val_prediction[0])}')
-    print (f'type val_prediction[0] {type(val_prediction[0])}')
-    print (f'len val_prediction[0][0] {len(val_prediction[0][0])}')
-    print (f'type val_prediction[0][0] {type(val_prediction[0][0])}')
-   # print (f'type val_prediction[0][0] {val_prediction[0][0]}')
-    print (f'shape val_prediction[0][0] {val_prediction[0][0].shape}')
-   
-    val_prediction = np.array([batch[2].detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
-    # val_prediction = np.concatenate([batch[2].detach().numpy() for batch in val_prediction])  # type: ignore # noqa: E501
+    
+    ### inference save to a csv
+    inf_prediction = trainer.predict(model=model,dataloaders=inf_loader)
+    inf_prediction = [batch_output[2] for batch_output in inf_prediction]  # Extract mu from each batch
+    inf_prediction = torch.cat(inf_prediction, dim=0).detach().cpu().numpy()  
 
-    # for i in range(val_prediction.shape[1]):
-    #     val_df[f"prediction_{i}"] = val_prediction[:, i]
+    inf_df = pd.DataFrame()
+    for i in range(inf_prediction.shape[1]):
+        inf_df[f"prediction_{i}"] = inf_prediction[:,i]
 
-    val_df["prediction"] = val_prediction
+    
+    inf_df.to_csv("data/output/df_predictions.csv")
+
 
     return val_df

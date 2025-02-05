@@ -4,6 +4,7 @@ import pandas as pd
 from ViennaRNA import fold
 
 from src.data.load_data import get_mutated_subsequence
+from src.utils.sequences import dna_to_aa
 
 
 def subsample(df: pd.DataFrame, fraction: float) -> pd.DataFrame:
@@ -14,6 +15,10 @@ def subsample(df: pd.DataFrame, fraction: float) -> pd.DataFrame:
 def remove_non_functional(df: pd.DataFrame, cutoff: float) -> pd.DataFrame:
     """Remove non-functional mutations from the dataset."""
     return df[df["fitness"] >= cutoff]  # type: ignore
+
+def subset_27de(df: pd.DataFrame) -> pd.DataFrame:
+    """Subset 27D and 27E (aspartic and glutamic acids), i.e., GA at 4ht and 5th positions of 9 nt genotype string"""
+    return df[df["sequence_dna"].str[3:5] == "GA"]  # type: ignore
 
 
 def remove_non_significant(df: pd.DataFrame, cutoff: float) -> pd.DataFrame:
@@ -57,3 +62,20 @@ def rna_loops(df: pd.DataFrame, column: str) -> pd.DataFrame:
     """Uses Vienna to add the predicted RNA loops."""
     df["rna_loops"] = df[column].apply(lambda seq: fold(seq)[0])
     return df
+
+def rna_loops_minimum_free_energy(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """Uses Vienna to add the predicted RNA loops and minimum_free_energy."""
+    df[["rna_loops", "minimum_free_energy"]] = df[column].apply(lambda seq: pd.Series(fold(seq)[:2]))
+    return df
+
+
+def mutated_amino_acids(df: pd.DataFrame) -> pd.DataFrame:
+    """Adds the amino acid sequence corresponding to the mutated nucleotides."""
+    df["mutated_amino_acids"] = df["sequence_dna"].apply(dna_to_aa)
+    return df
+
+def remove_stop_codons(df: pd.DataFrame) -> pd.DataFrame:
+    """Remove amino acid sequences containing stop codons"""
+    if "mutated_amino_acids" not in df.columns:
+        raise ValueError("Column 'mutated_amino_acids' not found in the DataFrame.")
+    return df[~df["mutated_amino_acids"].str.contains(r"\*", na=False)]  # type: ignore

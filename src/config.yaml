@@ -1,18 +1,22 @@
 run_name: cnn_vae_synonymous_batches
 
 preprocessing:
-  - name: remove_non_functional
-    cutoff: -0.508
+  # - name: remove_non_functional
+  #   cutoff: -0.508
+  #- name: subset_27de
   # - name: subsample
-  #   fraction: 0.1
+  #   fraction: 0.2
   - name: extend_mutated_sequence
     wildtype_start_position: 593
     length: 117
-  - name: rna_loops
+  - name: mutated_amino_acids
+  #- name: remove_stop_codons
+  - name: rna_loops_minimum_free_energy
     column: mutated_wildtype_dna
 
+
 factors:
-  - name: mutated_amino_acids
+  #- name: mutated_amino_acids
   #- name: minimum_free_energy
   - name: neural_network
     project_name: cnn_vae_synonymous_batches
@@ -50,26 +54,29 @@ factors:
       kld_weight: 0.1
 
     trainer_config:
-      max_epochs: 1
+      max_epochs: 50
 
-analysis:
-  - name: correlation_with_fitness
-    variables:
-      - prediction_0
-      - prediction_1
-      - prediction_2
-      - prediction_3
-      - prediction_4
-      - minimum_free_energy
-    group_by:
-      - mutated_amino_acids
-    significant_threshold: 0.05
-  - name: random_forest_permutation_importance
-    variables:
-      - minimum_free_energy
-      - mutated_amino_acids
-      - prediction_0
-      - prediction_1
-      - prediction_2
-      - prediction_3
-      - prediction_4
+# inference:
+#   - name: latent_representations 
+
+# analysis:
+#   - name: correlation_with_fitness
+#     variables:
+#       - prediction_0
+#       - prediction_1
+#       - prediction_2
+#       - prediction_3
+#       - prediction_4
+#       - minimum_free_energy
+#     group_by:
+#       - mutated_amino_acids
+#     significant_threshold: 0.05
+#   - name: random_forest_permutation_importance
+#     variables:
+#       - minimum_free_energy
+#       - mutated_amino_acids
+#       - prediction_0
+#       - prediction_1
+#       - prediction_2
+#       - prediction_3
+#       - prediction_4
